@@ -23,8 +23,6 @@ import GroupDiscover from '../components/GroupDiscover';
 
 const TabBarHeight = 48;
 const HeaderHeight = 57;
-const tab1ItemSize = (Dimensions.get('window').width - 30) / 2;
-const tab2ItemSize = (Dimensions.get('window').width - 40) / 3;
 
 const TabScene = ({
     numCols,
@@ -35,6 +33,7 @@ const TabScene = ({
     onScrollEndDrag,
     onMomentumScrollEnd,
     onMomentumScrollBegin,
+    onPress
 }) => {
     const windowHeight = Dimensions.get('window').height;
 
@@ -67,13 +66,15 @@ const TabScene = ({
     );
 };
 
-const HomeScreen = () => {
+const HomeScreen = props => {
+
+    const { navigation } = props;
+
     const [tabIndex, setIndex] = useState(0);
     const [routes] = useState([
         { key: 'home', title: 'Home' },
         { key: 'discover', title: 'Discover' },
     ]);
-    const [tab2Data] = useState(Array(30).fill(0));
     const scrollY = useRef(new Animated.Value(0)).current;
     let listRefArr = useRef([]);
     let listOffset = useRef({});
@@ -88,6 +89,18 @@ const HomeScreen = () => {
             scrollY.removeAllListeners();
         };
     }, [routes, tabIndex]);
+
+    const viewGroupHandler = () => {
+        navigation.navigate('Group');
+    }
+
+    const goToProfileHandler = () => {
+        navigation.navigate('Profile')
+    }
+
+    const goBack = () => {
+        navigation.goBack();
+    }
 
     const syncScrollOffset = () => {
         const curRouteKey = routes[tabIndex].key;
@@ -140,12 +153,12 @@ const HomeScreen = () => {
         });
         return (
             <Animated.View style={[styles.header, { transform: [{ translateY: y }] }]}>
-                <Header />
+                <Header onPress={goToProfileHandler} goBack={goBack} />
             </Animated.View>
         );
     };
 
-    const renderHome = ({ item, index }) => <Post item={item} /> 
+    const renderHome = ({ item, index }) => <Post item={item} onPress={viewGroupHandler} /> 
 
     const renderDiscover = ({ item, index }) => <GroupDiscover group={item} />
 
@@ -174,11 +187,13 @@ const HomeScreen = () => {
                 numCols = 1;
                 data = DUMMYPOST;
                 renderItem = renderHome;
+                onPress = viewGroupHandler;
                 break;
             case 'discover':
                 numCols = 1;
                 data = DUMMYGROUP;
                 renderItem = renderDiscover;
+                onPress = viewGroupHandler;
                 break;
             default:
                 return null;
@@ -204,6 +219,7 @@ const HomeScreen = () => {
                         }
                     }
                 }}
+                onPress={onPress}
             />
         );
     };

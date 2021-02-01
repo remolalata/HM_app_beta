@@ -15,14 +15,19 @@ import Colors from '../constants/colors';
 var { width } = Dimensions.get('window');
 
 const Post = (props) => {
-    const { item } = props;
+
+    const { item, onPress } = props;
+
+    console.log(item)
 
     return (
         <View style={styles.post}>
             <View style={[styles.header, styles.paddingHorizontal]}>
                 <View style={styles.mainHeader}>
                     <View>
-                        <Text style={styles.groupName}>{item.groupName}</Text>
+                        <TouchableWithoutFeedback onPress={onPress}>
+                            <Text style={styles.groupName}>{item.groupName}</Text>
+                        </TouchableWithoutFeedback>
                     </View>
                     <View>
                         <TouchableWithoutFeedback>
@@ -38,13 +43,13 @@ const Post = (props) => {
                         <Text style={styles.bulletSeparator}>&bull;</Text>
                     </View>
                     <View>
-                       <Text style={styles.subHeaderText}>@{item.author}</Text>
+                        <Text style={styles.subHeaderText}>@{item.author}</Text>
                     </View>
                     <View>
                         <Text style={styles.bulletSeparator}>&bull;</Text>
                     </View>
                     <View>
-                       <Text style={styles.subHeaderText}>{item.createdAt}</Text>
+                        <Text style={styles.subHeaderText}>{item.createdAt}</Text>
                     </View>
                 </View>
             </View>
