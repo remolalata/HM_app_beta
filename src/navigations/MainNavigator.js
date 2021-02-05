@@ -67,10 +67,12 @@ const HomeTabNavigator = () => {
                     props.accessibilityState.selected
                         ? [props.style, { borderTopColor: Colors.black, borderTopWidth: 2 }]
                         : props.style
-                } />
+                    }
+                />,
+                tabBarVisible: route.name === 'NewPost' ? false : true
             })}>
             <Tab.Screen name="Home" component={HomeScreen} />
-            <Tab.Screen name="NewPost" component={NewPostScreen} />
+            <Tab.Screen name="NewPost" component={NewPostScreen} options={{ title: 'New Post' }} />
             <Tab.Screen name="Communities" component={CommunitiesScreen} />
         </Tab.Navigator>
     );

@@ -160,7 +160,7 @@ const HomeScreen = props => {
 
     const renderHome = ({ item, index }) => <Post item={item} onPress={viewGroupHandler} /> 
 
-    const renderDiscover = ({ item, index }) => <GroupDiscover group={item} />
+    const renderDiscover = ({ item, index }) => <GroupDiscover group={item} onPress={viewGroupHandler} />
 
     const renderLabel = ({ route, focused }) => {
         return (

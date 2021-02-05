@@ -1,5 +1,6 @@
 import Post from '../models/dummy-post';
 import Group from '../models/dummy-group';
+import Group2 from '../models/dummy-group2';
 
 export const DUMMYPOST = [
     new Post(
@@ -68,5 +69,37 @@ export const DUMMYGROUP = [
         'platiers',
         'A group for succulents/cacti (or any plants actually) enthusiasts and hobbyists.',
         require('../assets/images/discover-img-1.png')
+    )
+]
+
+export const DUMMYGROUP2 = [
+    new Group2 (
+        1,
+        'Boglads',
+        require('../assets/images/group-img-1.png')
+    ),
+
+    new Group2 (
+        2,
+        'College of Architecture 2020',
+        require('../assets/images/group-img-2.png')
+    ),
+
+    new Group2 (
+        3,
+        'Dimagiba Family',
+        require('../assets/images/group-img-3.png')
+    ),
+
+    new Group2 (
+        4,
+        'Gunpla Singapore',
+        require('../assets/images/group-img-4.png')
+    ),
+
+    new Group2 (
+        5,
+        'Plantyuhins Manila',
+        require('../assets/images/group-img-5.png')
     )
 ]

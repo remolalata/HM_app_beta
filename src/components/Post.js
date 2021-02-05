@@ -18,8 +18,6 @@ const Post = (props) => {
 
     const { item, onPress } = props;
 
-    console.log(item)
-
     return (
         <View style={styles.post}>
             <View style={[styles.header, styles.paddingHorizontal]}>
