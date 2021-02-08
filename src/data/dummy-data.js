@@ -1,4 +1,5 @@
 import Post from '../models/dummy-post';
+import GroupPost from '../models/dummy-group-post';
 import Group from '../models/dummy-group';
 import Group2 from '../models/dummy-group2';
 
@@ -49,6 +50,36 @@ export const DUMMYPOST = [
         require('../assets/images/img-3.png'),
         54,
         13
+    ),
+]
+
+export const DUMMYGROUPPOST = [
+    new GroupPost(
+        1,
+        1,
+        'Gigi Dimagiba',
+        'gigiba',
+        require('../assets/images/group-post-user-1.png'),
+        'Homebound',
+        '45s ago',
+        'Hello Fam, kindly tell the parentals that I’m on my way home. Messenger is just having problems! Hehe',
+        require('../assets/images/group-post-img-1.png'),
+        15,
+        22
+    ),
+
+    new GroupPost(
+        2,
+        1,
+        'Maggie Dimagiba',
+        'magdimags',
+        require('../assets/images/group-post-user-2.png'),
+        'At Home',
+        '2 hours ago',
+        'Hello my loves, have anyone of you contacted Gigi? She’s not responding to any of my messages. She’s on her way home daw but that was 3 hours ago pa!!!',
+        null,
+        5,
+        31
     ),
 ]
 

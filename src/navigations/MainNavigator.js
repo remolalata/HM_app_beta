@@ -1,9 +1,15 @@
 import React from 'react';
-import { Group, TouchableOpacity, } from 'react-native';
+import { View, Text } from 'react-native';
+import { Group, TouchableOpacity } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { createDrawerNavigator } from '@react-navigation/drawer';
+import {
+    createDrawerNavigator,
+    DrawerContentScrollView,
+    DrawerItemList,
+    DrawerItem,
+} from '@react-navigation/drawer';
 import Icon from 'react-native-vector-icons/Feather';
 
 import HomeScreen from '../screens/HomeScreen';
@@ -19,19 +25,13 @@ const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 const Drawer = createDrawerNavigator();
 
-const HomeStackNavigator = () => {
+const CustomDrawerComponent = (props) => {
     return (
-        <Stack.Navigator
-            screenOptions={{
-                headerShown: false
-            }}
-        >
-            <Stack.Screen name='Home' component={HomeScreen} />
-            <Stack.Screen name='Group' component={GroupScreen} />
-            <Stack.Screen name='Profile' component={ProfileScreen} />
-        </Stack.Navigator>
-    )
-}
+        <DrawerContentScrollView {...props}>
+            <DrawerItem label="Test" />
+        </DrawerContentScrollView>
+    );
+};
 
 const HomeTabNavigator = () => {
     return (
@@ -42,11 +42,11 @@ const HomeTabNavigator = () => {
                 labelStyle: {
                     fontFamily: 'Lato-Regular',
                     fontSize: 12,
-                    marginBottom: 15
+                    marginBottom: 15,
                 },
                 style: {
                     height: 70,
-                    backgroundColor: '#ffffff'
+                    backgroundColor: '#ffffff',
                 },
             }}
             screenOptions={({ route }) => ({
@@ -61,20 +61,50 @@ const HomeTabNavigator = () => {
                         iconName = focused ? 'users' : 'users';
                     }
 
-                    return <Icon name={iconName} size={25} color={color} style={{ marginTop: 10 }} />
+                    return (
+                        <Icon
+                            name={iconName}
+                            size={25}
+                            color={color}
+                            style={{ marginTop: 10 }}
+                        />
+                    );
                 },
-                tabBarButton: props => <TouchableOpacity {...props} style={
-                    props.accessibilityState.selected
-                        ? [props.style, { borderTopColor: Colors.black, borderTopWidth: 2 }]
-                        : props.style
-                    }
-                />,
-                tabBarVisible: route.name === 'NewPost' ? false : true
+                tabBarButton: (props) => (
+                    <TouchableOpacity
+                        {...props}
+                        style={
+                            props.accessibilityState.selected
+                                ? [
+                                    props.style,
+                                    { borderTopColor: Colors.black, borderTopWidth: 2 },
+                                ]
+                                : props.style
+                        }
+                    />
+                ),
+                tabBarVisible: route.name === 'NewPost' ? false : true,
             })}>
             <Tab.Screen name="Home" component={HomeScreen} />
-            <Tab.Screen name="NewPost" component={NewPostScreen} options={{ title: 'New Post' }} />
+            <Tab.Screen
+                name="NewPost"
+                component={NewPostScreen}
+                options={{ title: 'New Post' }}
+            />
             <Tab.Screen name="Communities" component={CommunitiesScreen} />
         </Tab.Navigator>
+    );
+};
+
+
+const HomeDrawerNavigator = () => {
+    return (
+        <Drawer.Navigator
+            drawerType="slide"
+            drawerContent={(props) => <CustomDrawerComponent {...props} />}
+        >
+            <Drawer.Screen name="Home" component={HomeTabNavigator} />
+        </Drawer.Navigator>
     );
 };
 
@@ -83,15 +113,14 @@ const MainNavigator = () => {
         <NavigationContainer>
             <Stack.Navigator
                 screenOptions={{
-                    headerShown: false
-                }}
-            >
-                <Stack.Screen name='Home' component={HomeTabNavigator} />
-                <Stack.Screen name='Group' component={GroupScreen} />
-                <Stack.Screen name='Profile' component={ProfileScreen} />
+                    headerShown: false,
+                }}>
+                <Stack.Screen name="Home" component={HomeDrawerNavigator} />
+                <Stack.Screen name="Group" component={GroupScreen} />
+                <Stack.Screen name="Profile" component={ProfileScreen} />
             </Stack.Navigator>
         </NavigationContainer>
-    )
-}
+    );
+};
 
 export default MainNavigator;

@@ -10,6 +10,9 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
 
+import ThumbsUp from '../assets/images/Thumbs Up.svg';
+import ThumbsUpActive from '../assets/images/Thumbs Up Fill.svg';
+
 import Colors from '../constants/colors';
 
 var { width } = Dimensions.get('window');
@@ -23,14 +26,14 @@ const Post = (props) => {
             <View style={[styles.header, styles.paddingHorizontal]}>
                 <View style={styles.mainHeader}>
                     <View>
-                        <TouchableWithoutFeedback onPress={onPress}>
+                        <TouchableOpacity onPress={onPress}>
                             <Text style={styles.groupName}>{item.groupName}</Text>
-                        </TouchableWithoutFeedback>
+                        </TouchableOpacity>
                     </View>
                     <View>
-                        <TouchableWithoutFeedback>
+                        <TouchableOpacity>
                             <Icon name="more-horizontal" size={25} color={Colors.lightGrey} />
-                        </TouchableWithoutFeedback>
+                        </TouchableOpacity>
                     </View>
                 </View>
                 <View style={styles.subHeader}>
@@ -54,7 +57,6 @@ const Post = (props) => {
             <View style={[styles.body, styles.paddingHorizontal]}>
                 <Text style={styles.content} numberOfLines={3}>
                     {item.content}
-                    {item.content}
                 </Text>
             </View>
             {item.image &&
@@ -73,7 +75,7 @@ const Post = (props) => {
             </View>
             <View style={styles.likeCommentBtns}>
                 <TouchableOpacity style={styles.likeCommentBtn}>
-                    <Icon name='thumbs-up' size={30} color={Colors.grey} />
+                    <ThumbsUp width={32} height={32} />
                 </TouchableOpacity>
                 <View style={styles.likeCommentBtnsSeparator}></View>
                 <TouchableOpacity style={styles.likeCommentBtn}>

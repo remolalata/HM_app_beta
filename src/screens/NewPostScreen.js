@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useLayoutEffect, useCallback } from 'react';
+import React, { useState, useCallback } from 'react';
 import {
     View,
     Text,
@@ -32,14 +32,17 @@ const NewPostScreen = (props) => {
     const [inputPost, setInputPost] = useState('');
     const [selectedGroup, setSelectedGroup] = useState(null);
     const [selectedImages, setSelectedImages] = useState(0);
+    const [readyPost, setReadyPost] = useState(false);
 
     useFocusEffect(
         useCallback(() => {
             return () => {
-                setSelectedGroup(null)
-                setSelectedImages(0)
+                setSelectedGroup(null);
+                setSelectedImages(0);
+                setInputPost('');
+                setReadyPost(false);
             };
-        }, [])
+        }, []),
     );
 
     const renderItem = ({ item }) => (
@@ -51,38 +54,52 @@ const NewPostScreen = (props) => {
         </TouchableOpacity>
     );
 
-    const onChangeTextHandler = text => {
+    const onChangeTextHandler = (text) => {
         setInputPost(text);
-    }
+        if (!/\S/.test(text)) {
+            if (selectedImages > 0) {
+                setReadyPost(true)
+            } else {
+                setReadyPost(false)
+            }
+        } else {
+            setReadyPost(true);
+        }
+    };
 
-    const selectGroupHandler = id => {
+    const selectGroupHandler = (id) => {
         if (id) {
-            let activeGroup = DUMMYGROUP2.find(x => id === x.id);
+            let activeGroup = DUMMYGROUP2.find((x) => id === x.id);
             setModalVisible(!modalVisible);
             setSelectedGroup(activeGroup);
         }
-    }
+    };
 
     const selectImage = () => {
         ImagePicker.openPicker({
-            multiple: true
-        }).then(images => {
-            setSelectedImages(images.length);
-        });
-    }
+            multiple: true,
+        })
+            .then((images) => {
+                setReadyPost(images.length > 0 ? true : false);
+                setSelectedImages(images.length);
+            })
+            .catch(() => {
+                setReadyPost(false);
+                setSelectedImages(0);
+            });
+    };
 
     return (
         <>
-            <Modal
-                animationType='fade'
-                visible={modalVisible}
-                transparent={true}
-            >
-                <TouchableWithoutFeedback onPress={() => setModalVisible(!modalVisible)}>
+            <Modal animationType="fade" visible={modalVisible} transparent={true}>
+                <TouchableWithoutFeedback
+                    onPress={() => setModalVisible(!modalVisible)}>
                     <View style={styles.modalContainer}>
                         <TouchableWithoutFeedback>
                             <View style={styles.modalContent}>
-                                <View style={styles.modalArrow}><ModalArrow /></View>
+                                <View style={styles.modalArrow}>
+                                    <ModalArrow />
+                                </View>
 
                                 <View style={styles.selectGroupWrapper}>
                                     <Text style={styles.selectGroup}>Select Group</Text>
@@ -91,15 +108,13 @@ const NewPostScreen = (props) => {
                                 <FlatList
                                     data={DUMMYGROUP2}
                                     renderItem={renderItem}
-                                    keyExtractor={item => item.id.toString()}
+                                    keyExtractor={(item) => item.id.toString()}
                                 />
                             </View>
                         </TouchableWithoutFeedback>
-
                     </View>
                 </TouchableWithoutFeedback>
             </Modal>
-
 
             <View style={styles.screen}>
                 <View style={styles.header}>
@@ -110,23 +125,30 @@ const NewPostScreen = (props) => {
                         <View>
                             <TouchableOpacity
                                 style={{ flexDirection: 'row', alignItems: 'center' }}
-                                onPress={() => setModalVisible(true)}
-                            >
-                                {selectedGroup ?
+                                onPress={() => setModalVisible(true)}>
+                                {selectedGroup ? (
                                     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                                        <Text style={styles.selectGroupLabel}>You are posting in </Text>
-                                        <Text style={[styles.selectGroupLabel, { fontFamily: 'Lato-Bold' }]}>{selectedGroup.groupName}</Text>
+                                        <Text style={styles.selectGroupLabel}>
+                                            You are posting in{' '}
+                                        </Text>
+                                        <Text
+                                            style={[
+                                                styles.selectGroupLabel,
+                                                { fontFamily: 'Lato-Bold' },
+                                            ]}>
+                                            {selectedGroup.groupName}
+                                        </Text>
                                     </View>
-
-                                    :
-                                    <>
-                                        <View>
-                                            <Text style={styles.selectGroupLabel}>Please select a group to post in</Text>
-                                        </View>
-                                        <Icon name="chevron-down" size={12} color="#000000" />
-                                    </>
-                                }
-
+                                ) : (
+                                        <>
+                                            <View>
+                                                <Text style={styles.selectGroupLabel}>
+                                                    Please select a group to post in
+                      </Text>
+                                            </View>
+                                            <Icon name="chevron-down" size={12} color="#000000" />
+                                        </>
+                                    )}
                             </TouchableOpacity>
                         </View>
                     </View>
@@ -144,40 +166,51 @@ const NewPostScreen = (props) => {
                         style={styles.input}
                         multiline={true}
                         onChangeText={onChangeTextHandler}
-                    // value={inputPost}
+                        value={inputPost}
+                        editable={selectedGroup ? true : false}
                     />
                 </View>
 
                 <View style={styles.footer}>
                     <View style={{ position: 'relative' }}>
-                        <TouchableOpacity onPress={() => selectImage()} >
-                            <Icon name="image" size={25} color={Colors.grey} />
+                        <TouchableOpacity
+                            disabled={selectedGroup ? false : true}
+                            onPress={() => selectImage()}>
+                            <Icon
+                                name="image"
+                                size={25}
+                                color={selectedGroup ? Colors.black : Colors.grey}
+                            />
                         </TouchableOpacity>
-                        {selectedImages > 0 && <View style={styles.labelCountWrapper}>
-                            <Text style={styles.labelCount}>{selectedImages}</Text>
-                        </View>}
+                        {selectedImages > 0 && (
+                            <View style={styles.labelCountWrapper}>
+                                <Text style={styles.labelCount}>{selectedImages}</Text>
+                            </View>
+                        )}
                     </View>
                     <View>
-                        <TouchableOpacity style={styles.button}>
+                        <TouchableOpacity
+                            style={[
+                                styles.button,
+                                { backgroundColor: readyPost ? Colors.blue : Colors.grey },
+                            ]}
+                            disabled={selectedGroup && readyPost ? false : true}
+                        >
                             <Text
                                 style={{
                                     color: '#ffffff',
                                     fontFamily: 'Lato-Bold',
                                     fontSize: 14,
-                                    marginRight: 5
-                                }}
-                            >
+                                    marginRight: 8,
+                                }}>
                                 Post
-                                </Text>
+                            </Text>
                             <Send width={14} height={15} />
                         </TouchableOpacity>
                     </View>
                 </View>
             </View>
         </>
-
-
-
     );
 };
 
@@ -212,7 +245,7 @@ const styles = StyleSheet.create({
         width: width - 30,
         position: 'relative',
         left: 15,
-        height: 55,
+        height: 66,
         borderTopColor: Colors.grey,
         borderTopWidth: 0.5,
         justifyContent: 'space-between',
@@ -224,16 +257,15 @@ const styles = StyleSheet.create({
         fontSize: 24,
         color: Colors.grey,
         paddingHorizontal: 15,
-        color: Colors.black
+        color: Colors.black,
     },
     button: {
         flexDirection: 'row',
         width: 110,
         height: 30,
-        backgroundColor: Colors.grey,
         justifyContent: 'center',
         alignItems: 'center',
-        borderRadius: 5
+        borderRadius: 5,
     },
     modalContainer: {
         position: 'absolute',
@@ -242,7 +274,7 @@ const styles = StyleSheet.create({
         left: 0,
         right: 0,
         alignItems: 'center',
-        backgroundColor: 'rgba(0, 0, 0, 0.25)'
+        backgroundColor: 'rgba(0, 0, 0, 0.25)',
     },
     modalArrow: {
         position: 'absolute',
@@ -258,12 +290,12 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         position: 'relative',
         top: 80,
-        paddingHorizontal: 15
+        paddingHorizontal: 15,
     },
     selectGroupWrapper: {
         borderBottomColor: Colors.grey,
         borderBottomWidth: 0.5,
-        paddingVertical: 25
+        paddingVertical: 25,
     },
     selectGroup: {
         fontFamily: 'Lato-Bold',
@@ -275,18 +307,18 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         marginVertical: 15,
         marginHorizontal: 25,
-        alignItems: 'center'
+        alignItems: 'center',
     },
     groupImage: {
         width: 46.67,
         height: 46.67,
-        borderRadius: 46.67 / 2
+        borderRadius: 46.67 / 2,
     },
     groupName: {
         fontFamily: 'Lato-Light',
         fontSize: 16,
         color: '#000000',
-        marginLeft: 15
+        marginLeft: 15,
     },
     labelCountWrapper: {
         position: 'absolute',
@@ -303,7 +335,7 @@ const styles = StyleSheet.create({
         fontFamily: 'Lato-Bold',
         fontSize: 8,
         color: '#ffffff',
-    }
+    },
 });
 
 export default NewPostScreen;
