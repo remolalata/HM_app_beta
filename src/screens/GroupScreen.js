@@ -44,11 +44,13 @@ const GroupScreen = (props) => {
         }, []),
     );
 
-    console.log(Math.max(40, inputHeigt))
-
     const goToProfileHandler = () => {
         navigation.navigate('Profile');
     };
+
+    const toggleDrawer = () => {
+        navigation.toggleDrawer();
+    }
 
     const selectImage = () => {
         ImagePicker.openPicker({
@@ -143,7 +145,7 @@ const GroupScreen = (props) => {
 
     return (
         <SafeAreaView style={styles.screen}>
-            <GroupHeader goToProfileHandler={goToProfileHandler} />
+            <GroupHeader goToProfileHandler={goToProfileHandler} toggleDrawer={toggleDrawer} />
             <FlatList
                 data={DUMMYGROUPPOST}
                 renderItem={renderItem}
@@ -198,7 +200,7 @@ const GroupScreen = (props) => {
 const styles = StyleSheet.create({
     screen: {
         flex: 1,
-        backgroundColor: '#ffffff',
+        backgroundColor: '#e5e5e5',
     },
     paddingHorizontal: {
         paddingHorizontal: 15,
@@ -295,6 +297,8 @@ const styles = StyleSheet.create({
         shadowRadius: 1,
         elevation: 12,
         zIndex: 1,
+        borderBottomLeftRadius: 10,
+        borderBottomRightRadius: 10
     },
     textInputWrapper: {
         flex: 1,

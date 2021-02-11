@@ -34,6 +34,8 @@ const styles = StyleSheet.create({
         top: 0,
         width: '100%',
         position: 'absolute',
+        borderTopLeftRadius: 10,
+        borderTopRightRadius: 10
     },
     headerAvatarWrapper: {
         marginRight: 10,

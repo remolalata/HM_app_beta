@@ -4,12 +4,12 @@ import Icon from 'react-native-vector-icons/Feather';
 
 const GroupHeader = props => {
 
-    const { goToProfileHandler } = props;
+    const { goToProfileHandler, toggleDrawer } = props;
 
     return (
         <View style={styles.header}>
             <View>
-                <TouchableWithoutFeedback>
+                <TouchableWithoutFeedback onPress={toggleDrawer}>
                     <Icon name="menu" size={30} color='#000000' />
                 </TouchableWithoutFeedback>
             </View>
@@ -41,7 +41,9 @@ const styles = StyleSheet.create({
             width: 0,
         },
         elevation: 4,
-        zIndex: 1
+        zIndex: 1,
+        borderTopLeftRadius: 10,
+        borderTopRightRadius: 10
     },
     headerAvatar: {
         width: 25,

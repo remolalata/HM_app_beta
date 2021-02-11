@@ -283,6 +283,7 @@ const styles = StyleSheet.create({
         height: HeaderHeight,
         width: '100%',
         position: 'absolute',
+        backgroundColor: '#e5e5e5'
     },
     label: {
         width: 65,
