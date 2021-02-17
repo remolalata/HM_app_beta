@@ -4,16 +4,21 @@ import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import Colors from '../constants/colors';
 
 const DrawerSubTasks = props => {
+
+    const { navigation, activeRoute } = props;
+
+    console.log(activeRoute)
+
     return (
         <View style={styles.container}>
-            <TouchableOpacity>
-                <View style={[styles.label, styles.labelActive]}>
+            <TouchableOpacity onPress={() => navigation.navigate('Home', { screen: 'Group' })}>
+                <View style={[styles.label, (activeRoute.screen === 'Group') ? styles.labelActive : '']}>
                     <Text style={[styles.labelText, styles.labelTextActive]}>Feed</Text>
                     <View style={styles.redDot}></View>
                 </View>
             </TouchableOpacity>
-            <TouchableOpacity>
-                <View style={styles.label}>
+            <TouchableOpacity onPress={() => navigation.navigate('Home', { screen: 'PinnedPost' })}>
+                <View style={[styles.label, (activeRoute.screen === 'PinnedPost') ? styles.labelActive : '']}>
                     <Text style={styles.labelText}>Pinned Post (2)</Text>
                 </View>
             </TouchableOpacity>

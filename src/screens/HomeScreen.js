@@ -50,12 +50,10 @@ const TabScene = ({
             onScrollEndDrag={onScrollEndDrag}
             onMomentumScrollEnd={onMomentumScrollEnd}
             ItemSeparatorComponent={() => <View style={{ height: 8, backgroundColor: Colors.lightGrey }} />}
-            ListHeaderComponent={() => <View style={{ height: 10 }} />}
             contentContainerStyle={{
                 paddingTop: HeaderHeight + TabBarHeight,
-                // paddingHorizontal: 10
                 minHeight: windowHeight - TabBarHeight,
-                backgroundColor: '#ffffff',
+                backgroundColor: '#e5e5e5',
             }}
             showsHorizontalScrollIndicator={false}
             data={data}
@@ -225,11 +223,19 @@ const HomeScreen = props => {
     };
 
     const renderTabBar = (props) => {
+
         const y = scrollY.interpolate({
             inputRange: [0, HeaderHeight],
             outputRange: [HeaderHeight, 0],
             extrapolateRight: 'clamp',
         });
+
+        const radius = scrollY.interpolate({
+            inputRange: [0, 10],
+            outputRange: [0, 10],
+            extrapolateRight: 'clamp',
+        });
+
         return (
             <Animated.View
                 style={{
@@ -237,6 +243,9 @@ const HomeScreen = props => {
                     zIndex: 1,
                     position: 'absolute',
                     transform: [{ translateY: y }],
+                    borderTopLeftRadius: radius,
+                    borderTopRightRadius: radius,
+                    overflow: 'hidden',
                     width: '100%'
                 }}>
                 <TabBar
@@ -292,7 +301,7 @@ const styles = StyleSheet.create({
         fontFamily: 'Lato-Regular'
     },
     tab: {
-        backgroundColor: '#ffffff'
+        backgroundColor: '#fff',
     },
     indicator: {
         backgroundColor: Colors.black
