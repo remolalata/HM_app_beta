@@ -72,7 +72,7 @@ const HomeScreen = props => {
 
     const [tabIndex, setIndex] = useState(0);
     const [routes] = useState([
-        { key: 'home', title: 'Home' },
+        { key: 'home', title: 'Feed' },
         { key: 'discover', title: 'Discover' },
     ]);
     const scrollY = useRef(new Animated.Value(0)).current;

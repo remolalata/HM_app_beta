@@ -2,6 +2,7 @@ import Post from '../models/dummy-post';
 import GroupPost from '../models/dummy-group-post';
 import Group from '../models/dummy-group';
 import Group2 from '../models/dummy-group2';
+import User from '../models/dummy-user';
 
 export const DUMMYPOST = [
     new Post(
@@ -133,4 +134,51 @@ export const DUMMYGROUP2 = [
         'Plantyuhins Manila',
         require('../assets/images/group-img-5.png')
     )
+]
+
+export const DUMMYUSERS = [
+    new User (
+        1,
+        'Robert Hal Dimagiba',
+        'robdimags',
+        'At Home',
+        'Owner',
+        require('../assets/images/avatar.png')
+    ),
+
+    new User (
+        2,
+        'Maggie Dimagiba',
+        'magdimags',
+        'Homebound',
+        'Admin',
+        require('../assets/images/avatar-2.png')
+    ),
+
+    new User (
+        3,
+        'Dina Dimagiba',
+        'dinadimags',
+        'At Home',
+        'Member',
+        require('../assets/images/avatar-3.png')
+    ),
+
+    new User (
+        4,
+        'Ted Dimagiba',
+        'tedibar',
+        'At Home',
+        'Member',
+        require('../assets/images/avatar-4.png')
+    ),
+
+    new User (
+        5,
+        'Gigi Dimagiba',
+        'gigiba',
+        'Homebound',
+        'member',
+        require('../assets/images/avatar-5.png')
+    ),
 ]

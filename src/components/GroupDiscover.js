@@ -8,7 +8,6 @@ import {
     Dimensions,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
-import colors from '../constants/colors';
 
 import Colors from '../constants/colors';
 
