@@ -73,6 +73,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'center',
         padding: 15,
+        backgroundColor: '#ffffff'
     },
     imageWrapper: {
         width: imageWrapperWidth,

@@ -5,36 +5,41 @@ import Colors from '../constants/colors';
 
 const DrawerSubTasks = props => {
 
-    const { navigation, activeRoute } = props;
+    const { navigation } = props;
+    let { activeRoute } = props;
 
-    console.log(activeRoute)
+    if (activeRoute === undefined) {
+        activeRoute = {
+            screen: 'Group'
+        }
+    }
 
     return (
         <View style={styles.container}>
             <TouchableOpacity onPress={() => navigation.navigate('Home', { screen: 'Group' })}>
-                <View style={[styles.label, (activeRoute.screen === 'Group') ? styles.labelActive : '']}>
-                    <Text style={[styles.labelText, styles.labelTextActive]}>Feed</Text>
+                <View style={[styles.label, (activeRoute.screen === 'Group' || activeRoute === undefined) ? styles.labelActive : '']}>
+                    <Text style={[styles.labelText, (activeRoute.screen === 'Group' || activeRoute === undefined) ? styles.labelTextActive : '']}>Feed</Text>
                     <View style={styles.redDot}></View>
                 </View>
             </TouchableOpacity>
             <TouchableOpacity onPress={() => navigation.navigate('Home', { screen: 'PinnedPost' })}>
                 <View style={[styles.label, (activeRoute.screen === 'PinnedPost') ? styles.labelActive : '']}>
-                    <Text style={styles.labelText}>Pinned Post (2)</Text>
+                    <Text style={[styles.labelText, (activeRoute.screen === 'PinnedPost') ? styles.labelTextActive : '']}>Pinned Post (2)</Text>
                 </View>
             </TouchableOpacity>
-            <TouchableOpacity>
-                <View style={styles.label}>
-                    <Text style={styles.labelText}>Locator</Text>
+            <TouchableOpacity onPress={() => navigation.navigate('Home', { screen: 'Locator' })}>
+                <View style={[styles.label, (activeRoute.screen === 'Locator') ? styles.labelActive : '']}>
+                    <Text style={[styles.labelText, (activeRoute.screen === 'Locator') ? styles.labelTextActive : '']}>Locator</Text>
                 </View>
             </TouchableOpacity>
-            <TouchableOpacity>
-                <View style={styles.label}>
-                    <Text style={styles.labelText}>Family Shopping</Text>
+            <TouchableOpacity onPress={() => navigation.navigate('Home', { screen: 'FamilyShopping' })}>
+                <View style={[styles.label, (activeRoute.screen === 'FamilyShopping') ? styles.labelActive : '']}>
+                    <Text style={[styles.labelText, (activeRoute.screen === 'FamilyShopping') ? styles.labelTextActive : '']}>Family Shopping</Text>
                 </View>
             </TouchableOpacity>
-            <TouchableOpacity>
-                <View style={styles.label}>
-                    <Text style={styles.labelText}>Grocery List</Text>
+            <TouchableOpacity onPress={() => navigation.navigate('Home', { screen: 'GroceryList' })}>
+                <View style={[styles.label, (activeRoute.screen === 'GroceryList') ? styles.labelActive : '']}>
+                    <Text style={[styles.labelText, (activeRoute.screen === 'GroceryList') ? styles.labelTextActive : '']}>Grocery List</Text>
                 </View>
             </TouchableOpacity>
         </View>

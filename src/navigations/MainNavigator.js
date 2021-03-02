@@ -9,6 +9,9 @@ import GroupScreen from '../screens/GroupScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import NewPostScreen from '../screens/NewPostScreen';
 import PinnedPostScreen from '../screens/PinnedPostScreen';
+import LocatorScreen from '../screens/LocatorScreen';
+import FamilyShoppingScreen from '../screens/FamilyShoppingScreen';
+import GroceryList from '../screens/GroceryListScreen';
 
 import CustomTabComponent from '../components/navigations/CustomTabComponent';
 import CustomDrawerComponent from '../components/navigations/CustomDrawerComponent';
@@ -48,7 +51,10 @@ const HomeStackNavigator = () => {
             <Stack.Screen name="Home" component={HomeTabNavigator} />
             <Stack.Screen name="Group" component={GroupScreen} />
             <Stack.Screen name="Profile" component={ProfileScreen} />
-            <Stack.Screen name='PinnedPost' component={PinnedPostScreen} /> 
+            <Stack.Screen name='PinnedPost' component={PinnedPostScreen} />
+            <Stack.Screen name='Locator' component={LocatorScreen} />
+            <Stack.Screen name='FamilyShopping' component={FamilyShoppingScreen} />
+            <Stack.Screen name='GroceryList' component={GroceryList} />
         </Stack.Navigator>
     );
 };
