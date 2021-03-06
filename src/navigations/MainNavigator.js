@@ -3,6 +3,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createDrawerNavigator } from '@react-navigation/drawer';
+import { useSelector, useDispatch } from 'react-redux';
 
 import HomeScreen from '../screens/HomeScreen';
 import GroupScreen from '../screens/GroupScreen';
@@ -16,27 +17,41 @@ import GroceryList from '../screens/GroceryListScreen';
 import CustomTabComponent from '../components/navigations/CustomTabComponent';
 import CustomDrawerComponent from '../components/navigations/CustomDrawerComponent';
 
+import { toggleNewPost } from '../store/actions/modals';
+
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 const Drawer = createDrawerNavigator();
 
 const HomeTabNavigator = () => {
+
+    const modals = useSelector(state => state.modals.newPost);
+
+    const dispatch = useDispatch();
+
+    const toggleNewPostHandler = bool => {
+        dispatch(toggleNewPost(bool))
+    }
+
     return (
         <Tab.Navigator
             tabBar={props => <CustomTabComponent {...props} />}
-            screenOptions={({ route }) => ({
-                tabBarVisible: route.name === 'NewPost' ? false : true,
-            })}
-            >
+        >
             <Tab.Screen
                 name="Home"
                 component={HomeScreen}
-                options={{ title: 'Feed' }}
+                options={{ title: 'Home' }}
             />
             <Tab.Screen
                 name="NewPost"
                 component={NewPostScreen}
                 options={{ title: 'New Post' }}
+                listeners={{
+                    tabPress: e => {
+                        e.preventDefault();
+                        toggleNewPostHandler(true);
+                    },
+                }}
             />
         </Tab.Navigator>
     );

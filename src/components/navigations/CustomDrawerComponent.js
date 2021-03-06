@@ -2,6 +2,7 @@ import React from 'react';
 import { TouchableOpacity, StyleSheet, Image, View, Text } from 'react-native';
 import { DrawerContentScrollView, DrawerItem } from '@react-navigation/drawer';
 import Icon from 'react-native-vector-icons/Feather';
+import { useSelector } from 'react-redux';
 
 import DrawerSubTasks from '../DrawerSubTasks';
 import DrawerMembers from '../DrawerMembers';
@@ -10,8 +11,6 @@ import Colors from '../../constants/colors';
 
 import Plus from '../../assets/images/Plus.svg';
 
-import { DUMMYGROUP2 } from '../../data/dummy-data';
-
 const CustomDrawerComponent = (props) => {
     const { 
         navigation,
@@ -19,6 +18,8 @@ const CustomDrawerComponent = (props) => {
             routes
         }
     } = props;
+
+    const groups = useSelector(state => state.groups.group2)
 
     return (
         <View style={styles.drawerContainer}>
@@ -30,7 +31,7 @@ const CustomDrawerComponent = (props) => {
                         <View style={{ marginTop: 16 }}>
                             <Text style={styles.groupsTitle}>Your Groups</Text>
                         </View>
-                        {DUMMYGROUP2.map((item) => (
+                        {groups.map((item) => (
                             <DrawerItem
                                 focused={item.id === 3 ? true : false}
                                 activeBackgroundColor={Colors.black}

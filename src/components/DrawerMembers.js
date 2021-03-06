@@ -1,11 +1,12 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Image, FlatList } from 'react-native';
-
-import { DUMMYUSERS } from '../data/dummy-data';
+import { useSelector } from 'react-redux';
 
 import Colors from '../constants/colors';
 
 const DrawerMembers = props => {
+
+    const users = useSelector(state => state.users.users);
 
     const renderItem = ({ item }) => {
         return (
@@ -34,7 +35,7 @@ const DrawerMembers = props => {
                 <Text style={styles.title}>Members</Text>
             </View>
             <FlatList
-                data={DUMMYUSERS}
+                data={users}
                 renderItem={renderItem}
                 keyExtractor={item => item.id.toString()}
             />

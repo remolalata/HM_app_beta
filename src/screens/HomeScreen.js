@@ -5,8 +5,11 @@ import {
     Text,
     Dimensions,
     Animated,
+    TouchableOpacity,
+    Modal
 } from 'react-native';
 import { TabView, TabBar } from 'react-native-tab-view';
+import { useSelector, useDispatch } from 'react-redux';
 
 // CONSTANTS
 import Colors from '../constants/colors';
@@ -14,12 +17,11 @@ import Colors from '../constants/colors';
 // COMPONENTS
 import Header from '../components/Header';
 
-// DATA
-import { DUMMYPOST, DUMMYGROUP } from '../data/dummy-data';
-
 // COMPONENTS
 import Post from '../components/Post';
 import GroupDiscover from '../components/GroupDiscover';
+import NewPost from '../components/NewPost';
+import { toggleNewPost } from '../store/actions/modals';
 
 const TabBarHeight = 48;
 const HeaderHeight = 57;
@@ -66,7 +68,13 @@ const TabScene = ({
 
 const HomeScreen = props => {
 
-    const { navigation } = props;
+    const { navigation, route } = props;
+
+    const posts = useSelector(state => state.posts.posts);
+    const groups = useSelector(state => state.groups.groups);
+    const modals = useSelector(state => state.modals.newPost);
+
+    const dispatch = useDispatch();
 
     const [tabIndex, setIndex] = useState(0);
     const [routes] = useState([
@@ -86,7 +94,7 @@ const HomeScreen = props => {
         return () => {
             scrollY.removeAllListeners();
         };
-    }, [routes, tabIndex]);
+    }, [routes, tabIndex, route]);
 
     const viewGroupHandler = () => {
         navigation.navigate('Group');
@@ -156,7 +164,7 @@ const HomeScreen = props => {
         );
     };
 
-    const renderHome = ({ item, index }) => <Post item={item} onPress={viewGroupHandler} /> 
+    const renderHome = ({ item, index }) => <Post item={item} onPress={viewGroupHandler} />
 
     const renderDiscover = ({ item, index }) => <GroupDiscover group={item} onPress={viewGroupHandler} />
 
@@ -183,13 +191,13 @@ const HomeScreen = props => {
         switch (route.key) {
             case 'home':
                 numCols = 1;
-                data = DUMMYPOST;
+                data = posts;
                 renderItem = renderHome;
                 onPress = viewGroupHandler;
                 break;
             case 'discover':
                 numCols = 1;
-                data = DUMMYGROUP;
+                data = groups;
                 renderItem = renderDiscover;
                 onPress = viewGroupHandler;
                 break;
@@ -282,6 +290,7 @@ const HomeScreen = props => {
         <View style={{ flex: 1 }}>
             {renderTabView()}
             {renderHeader()}
+            {modals && <NewPost />}
         </View>
     );
 };
@@ -305,7 +314,7 @@ const styles = StyleSheet.create({
     },
     indicator: {
         backgroundColor: Colors.black
-    }
+    },
 });
 
 export default HomeScreen;

@@ -13,6 +13,7 @@ import {
 import Icon from 'react-native-vector-icons/Feather';
 import ImagePicker from 'react-native-image-crop-picker';
 import { useFocusEffect } from '@react-navigation/native';
+import { useSelector } from 'react-redux';
 
 import ThumbsUp from '../assets/images/Thumbs Up.svg';
 import ThumbsUpActive from '../assets/images/Thumbs Up Fill.svg';
@@ -23,10 +24,10 @@ import GroupHeader from '../components/GroupHeader';
 
 import Colors from '../constants/colors';
 
-import { DUMMYGROUPPOST } from '../data/dummy-data';
-
 const GroupScreen = (props) => {
     const { navigation } = props;
+
+    const posts = useSelector(state => state.posts.groupPosts)
 
     const [selectedImages, setSelectedImages] = useState(0);
     const [inputPost, setInputPost] = useState('');
@@ -147,7 +148,7 @@ const GroupScreen = (props) => {
         <SafeAreaView style={styles.screen}>
             <GroupHeader goToProfileHandler={goToProfileHandler} toggleDrawer={toggleDrawer} />
             <FlatList
-                data={DUMMYGROUPPOST}
+                data={posts}
                 renderItem={renderItem}
                 ItemSeparatorComponent={() => (
                     <View style={{ height: 8, backgroundColor: Colors.lightGrey }} />
