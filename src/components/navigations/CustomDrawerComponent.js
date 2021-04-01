@@ -41,7 +41,7 @@ const CustomDrawerComponent = (props) => {
                                             <View
                                                 style={[
                                                     focused ? styles.activeGroup : null,
-                                                    { width: 75, height: 60 },
+                                                    { width: 100, height: 60 },
                                                 ]}>
                                                 <Image source={item.image} style={styles.groupImage} />
                                             </View>
@@ -119,7 +119,7 @@ const styles = StyleSheet.create({
         top: 6,
     },
     activeGroup: {
-        backgroundColor: '#fff',
+        backgroundColor: '#ffffff',
         borderTopLeftRadius: 48,
         borderBottomLeftRadius: 48,
     },

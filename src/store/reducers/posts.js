@@ -1,3 +1,5 @@
+import firestore from '@react-native-firebase/firestore';
+
 import { DUMMYPOST, DUMMYGROUPPOST } from '../../data/dummy-data';
 
 const initialState = {

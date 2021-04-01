@@ -10,26 +10,46 @@ import React from 'react';
 import { enableScreens } from 'react-native-screens';
 import { createStore, combineReducers } from 'redux';
 import { Provider } from 'react-redux';
+import { persistStore, persistReducer } from 'redux-persist';
+import { PersistGate } from 'redux-persist/integration/react';
+import AsyncStorage from '@react-native-community/async-storage';
 
 import MainDrawerNavigator from './src/navigations/MainNavigator';
 import postsReducer from './src/store/reducers/posts';
 import groupsReducer from './src/store/reducers/groups';
 import usersReducer from './src/store/reducers/users';
+import userReducer from './src/store/reducers/user';
 import modalsReducer from './src/store/reducers/modals';
 
 enableScreens();
+
+const persistConfig = {
+  key: 'root',
+  storage: AsyncStorage
+}
 
 const rootReducer = combineReducers({
   posts: postsReducer,
   groups: groupsReducer,
   users: usersReducer,
+  user: userReducer,
   modals: modalsReducer
-})
+});
 
-const store = createStore(rootReducer);
+const persistedReducer = persistReducer(persistConfig, rootReducer)
+
+const store = createStore(persistedReducer);
+
+let persistor = persistStore(store);
 
 const App = () => {
-  return <Provider store={store}><MainDrawerNavigator /></Provider>
+  return (
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+        <MainDrawerNavigator />
+      </PersistGate>
+    </Provider>
+  )
 }
 
 export default App;

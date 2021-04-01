@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "329512022623",
+    "project_id": "happymoppet-14549",
+    "storage_bucket": "happymoppet-14549.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:329512022623:android:3c98198e0aa8185f7561ea",
+        "android_client_info": {
+          "package_name": "com.beta"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "329512022623-000fjch8ce7ck2kfknt1q6q6bn1fjtar.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.beta",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "329512022623-vpn4d3qqnv3thc70cmpsfbrns7fu2hat.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCXd_QfYz63P8hsOeteMMzVH5HVOLQbMQM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "329512022623-vpn4d3qqnv3thc70cmpsfbrns7fu2hat.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -5,8 +5,7 @@ import {
     Text,
     Dimensions,
     Animated,
-    TouchableOpacity,
-    Modal
+    StatusBar
 } from 'react-native';
 import { TabView, TabBar } from 'react-native-tab-view';
 import { useSelector, useDispatch } from 'react-redux';
@@ -73,6 +72,7 @@ const HomeScreen = props => {
     const posts = useSelector(state => state.posts.posts);
     const groups = useSelector(state => state.groups.groups);
     const modals = useSelector(state => state.modals.newPost);
+    const user = useSelector(state => state.user.user);
 
     const dispatch = useDispatch();
 
@@ -81,6 +81,7 @@ const HomeScreen = props => {
         { key: 'home', title: 'Feed' },
         { key: 'discover', title: 'Discover' },
     ]);
+
     const scrollY = useRef(new Animated.Value(0)).current;
     let listRefArr = useRef([]);
     let listOffset = useRef({});
@@ -91,9 +92,11 @@ const HomeScreen = props => {
             const curRoute = routes[tabIndex].key;
             listOffset.current[curRoute] = value;
         });
+
         return () => {
             scrollY.removeAllListeners();
         };
+
     }, [routes, tabIndex, route]);
 
     const viewGroupHandler = () => {
@@ -102,6 +105,10 @@ const HomeScreen = props => {
 
     const goToProfileHandler = () => {
         navigation.navigate('Profile')
+    }
+
+    const goToLoginHandler = () => {
+        navigation.navigate('Login')
     }
 
     const goBack = () => {
@@ -159,7 +166,7 @@ const HomeScreen = props => {
         });
         return (
             <Animated.View style={[styles.header, { transform: [{ translateY: y }] }]}>
-                <Header onPress={goToProfileHandler} goBack={goBack} />
+                <Header goToProfile={goToProfileHandler} goToLogin={goToLoginHandler} goBack={goBack} />
             </Animated.View>
         );
     };
@@ -288,6 +295,10 @@ const HomeScreen = props => {
 
     return (
         <View style={{ flex: 1 }}>
+            <StatusBar
+                backgroundColor={modals ? 'rgba(0, 0, 0, 0.2)' : '#ffffff'}
+                barStyle='dark-content'
+            />
             {renderTabView()}
             {renderHeader()}
             {modals && <NewPost />}

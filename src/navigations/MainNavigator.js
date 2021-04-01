@@ -14,6 +14,11 @@ import LocatorScreen from '../screens/LocatorScreen';
 import FamilyShoppingScreen from '../screens/FamilyShoppingScreen';
 import GroceryList from '../screens/GroceryListScreen';
 
+import LoginScreen from '../screens/LoginScreen';
+import SignUpScreen from '../screens/SignUpScreen';
+
+import TestScreen from '../screens/TestScreen';
+
 import CustomTabComponent from '../components/navigations/CustomTabComponent';
 import CustomDrawerComponent from '../components/navigations/CustomDrawerComponent';
 
@@ -26,6 +31,9 @@ const Drawer = createDrawerNavigator();
 const HomeTabNavigator = () => {
 
     const modals = useSelector(state => state.modals.newPost);
+    const login = useSelector(state => state.modals);
+
+    console.log('login state: ', login)
 
     const dispatch = useDispatch();
 
@@ -70,6 +78,8 @@ const HomeStackNavigator = () => {
             <Stack.Screen name='Locator' component={LocatorScreen} />
             <Stack.Screen name='FamilyShopping' component={FamilyShoppingScreen} />
             <Stack.Screen name='GroceryList' component={GroceryList} />
+            <Stack.Screen name='Login' component={LoginScreen} />
+            <Stack.Screen name='SignUp' component={SignUpScreen} />
         </Stack.Navigator>
     );
 };

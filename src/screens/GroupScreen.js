@@ -9,6 +9,7 @@ import {
     TouchableOpacity,
     Image,
     TextInput,
+    StatusBar
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
 import ImagePicker from 'react-native-image-crop-picker';
@@ -82,6 +83,10 @@ const GroupScreen = (props) => {
 
     const renderItem = ({ item }) => (
         <View style={styles.post}>
+            <StatusBar
+                backgroundColor='#ffffff'
+                barStyle='dark-content'
+            />
             <View style={[styles.header, styles.paddingHorizontal]}>
                 <View style={{ marginRight: 10 }}>
                     <Image source={item.userAvatar} style={styles.userAvatar} />
@@ -175,12 +180,13 @@ const GroupScreen = (props) => {
                         <TextInput
                             placeholder="Post something in Dimagiba Family!"
                             multiline={true}
-                            numberOfLines={3}
+                            numberOfLines={5}
                             placeholderTextColor={Colors.black}
                             onChangeText={onChangeTextHandler}
                             style={[styles.textInput, { fontFamily: /\S/.test(inputPost) ? 'Lato-Regular' : 'Lato-Light' }]}
                             onContentSizeChange={e => {
-                                if (e.nativeEvent.contentSize.height <= 71) {
+                                if (e.nativeEvent.contentSize.height <= 121) {
+                                    console.log(e.nativeEvent.contentSize.height)
                                     setInputHeight(e.nativeEvent.contentSize.height)
                                 }
                             }}
