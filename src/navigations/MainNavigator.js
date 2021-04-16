@@ -17,8 +17,6 @@ import GroceryList from '../screens/GroceryListScreen';
 import LoginScreen from '../screens/LoginScreen';
 import SignUpScreen from '../screens/SignUpScreen';
 
-import TestScreen from '../screens/TestScreen';
-
 import CustomTabComponent from '../components/navigations/CustomTabComponent';
 import CustomDrawerComponent from '../components/navigations/CustomDrawerComponent';
 
@@ -32,8 +30,6 @@ const HomeTabNavigator = () => {
 
     const modals = useSelector(state => state.modals.newPost);
     const login = useSelector(state => state.modals);
-
-    console.log('login state: ', login)
 
     const dispatch = useDispatch();
 

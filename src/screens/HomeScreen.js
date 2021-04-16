@@ -171,7 +171,7 @@ const HomeScreen = props => {
         );
     };
 
-    const renderHome = ({ item, index }) => <Post item={item} onPress={viewGroupHandler} />
+    const renderHome = ({ item, index }) => <Post item={item} onPress={viewGroupHandler} goToLoginHandler={goToLoginHandler} />
 
     const renderDiscover = ({ item, index }) => <GroupDiscover group={item} onPress={viewGroupHandler} />
 

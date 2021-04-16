@@ -8,6 +8,7 @@ import {
     Dimensions,
     TouchableOpacity
 } from 'react-native';
+import { useSelector } from 'react-redux';
 import Icon from 'react-native-vector-icons/Feather';
 
 import ThumbsUp from '../assets/images/Thumbs Up.svg';
@@ -19,7 +20,25 @@ var { width } = Dimensions.get('window');
 
 const Post = (props) => {
 
-    const { item, onPress } = props;
+    const { item, onPress, goToLoginHandler } = props;
+
+    const user = useSelector(state => state.user.user);
+
+    const likeHandler = action => {
+        if (user) {
+            console.log('Like!');
+        } else {
+            goToLoginHandler();
+        }
+    }
+
+    const commentHandler = action => {
+        if (user) {
+            console.log('Like!');
+        } else {
+            goToLoginHandler();
+        }
+    }
 
     return (
         <View style={styles.post}>
@@ -74,11 +93,11 @@ const Post = (props) => {
                 </View>
             </View>
             <View style={styles.likeCommentBtns}>
-                <TouchableOpacity style={styles.likeCommentBtn}>
+                <TouchableOpacity style={styles.likeCommentBtn} onPress={likeHandler}>
                     <ThumbsUp width={32} height={32} />
                 </TouchableOpacity>
                 <View style={styles.likeCommentBtnsSeparator}></View>
-                <TouchableOpacity style={styles.likeCommentBtn}>
+                <TouchableOpacity style={styles.likeCommentBtn} onPress={commentHandler}>
                     <Icon name='message-circle' size={30} color={Colors.grey} />
                 </TouchableOpacity>
             </View>

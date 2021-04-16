@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useReducer } from 'react';
 import {
     View,
     StyleSheet,
@@ -27,37 +27,9 @@ const Header = (props) => {
 
     const user = useSelector((state) => state.user.user);
 
-    console.log(user)
-
     const dispatch = useDispatch();
 
-    const googleLogin = async () => {
-        try {
-            const { idToken } = await GoogleSignin.signIn();
-            const googleCredential = auth.GoogleAuthProvider.credential(idToken);
-            return auth().signInWithCredential(googleCredential);
-        } catch (e) {
-            console.log(e)
-        }
-    }
-
-    const googleLoginHandler = () => {
-        googleLogin()
-            .then(({ user }) => {
-                const {
-                    _user
-                } = user;
-
-                dispatch(loginUser(_user))
-            })
-            .catch(err => {
-                console.log(err)
-            })
-    }
-
-    const logoutHandler = () => {
-        dispatch(logoutUser())
-    }
+    console.log('user', user);
 
     return (
         <View style={styles.header}>
@@ -67,11 +39,17 @@ const Header = (props) => {
             {user ?
                 <View style={styles.headerAvatarWrapper}>
                     <TouchableWithoutFeedback onPress={goToProfile}>
-                    {/* <TouchableWithoutFeedback onPress={logoutHandler}> */}
-                        <Image
-                            style={styles.headerAvatar}
-                            source={require('../assets/images/avatar.png')}
-                        />
+                        {user && user.photoURL ?
+                            <Image
+                                style={styles.headerAvatar}
+                                source={{ uri: user.photoURL }}
+                            />
+                            :
+                            <Image
+                                style={styles.headerAvatar}
+                                source={require('../assets/images/avatar.png')}
+                            />
+                        }
                     </TouchableWithoutFeedback>
                 </View>
                 :

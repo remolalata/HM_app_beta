@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
     View,
     Text,
@@ -7,13 +7,40 @@ import {
     Image,
     ScrollView,
 } from 'react-native';
+import { useSelector, useDispatch } from 'react-redux';
 import Icon from 'react-native-vector-icons/Feather';
+import auth from '@react-native-firebase/auth';
+
+import { logoutUser } from '../store/actions/user';
 
 import Colors from '../constants/colors';
 
-const ProfileScreen = props => {
-
+const ProfileScreen = (props) => {
     const { navigation } = props;
+
+    const user = useSelector((state) => state.user.user);
+
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        console.log(user)
+        if (user === null) {
+            navigation.navigate('Home');
+        }
+    })
+
+    const logoutHandler = () => {
+        auth()
+            .signOut()
+            .then(() => {
+                dispatch(logoutUser());
+                navigation.navigate('Home');
+            })
+            .catch(() => {
+                dispatch(logoutUser());
+                navigation.navigate('Home');
+            })
+    };
 
     return (
         <ScrollView style={styles.screen}>
@@ -29,16 +56,31 @@ const ProfileScreen = props => {
             </View>
             <View style={styles.profile}>
                 <View>
-                    <Image
-                        source={require('../assets/images/avatar.png')}
-                        style={styles.image}
-                    />
+                    {user && user.photoURL ?
+                        <Image
+                            source={{ uri: user.photoURL }}
+                            style={styles.image}
+                        />
+                        :
+                        <Image
+                            source={require('../assets/images/avatar.png')}
+                            style={styles.image}
+                        />
+                    }
                 </View>
                 <View>
-                    <Text style={styles.name}>Robert Hal Dimagiba</Text>
+                    {user &&
+                        <Text style={styles.name}>
+                            {user.first_name} {user.last_name}
+                        </Text>
+                    }
                 </View>
                 <View>
-                    <Text style={styles.username}>@robdimags</Text>
+                    {user && user.username ?
+                        <Text style={styles.username}>@{user.username}</Text>
+                        :
+                        null
+                    }
                 </View>
                 <View>
                     <Text style={styles.bio}>
@@ -46,15 +88,27 @@ const ProfileScreen = props => {
                         Gigianna.
                     </Text>
                 </View>
+                <View>
+                    <TouchableWithoutFeedback onPress={logoutHandler}>
+                        <Text
+                            style={{
+                                color: Colors.red,
+                                marginTop: 20,
+                            }}>
+                            LOGOUT
+                        </Text>
+                    </TouchableWithoutFeedback>
+                </View>
             </View>
-            <View style={{
-                padding: 15,
-                flex: 1,
-                width: '100%',
-                flexDirection: 'row',
-                flexWrap: 'wrap',
-                justifyContent: 'space-between',
-            }}>
+            <View
+                style={{
+                    padding: 15,
+                    flex: 1,
+                    width: '100%',
+                    flexDirection: 'row',
+                    flexWrap: 'wrap',
+                    justifyContent: 'space-between',
+                }}>
                 <View style={[styles.box, { width: '100%' }]}></View>
                 <View style={styles.box}></View>
                 <View style={styles.box}></View>
@@ -117,7 +171,7 @@ const styles = StyleSheet.create({
         width: '48%',
         height: 188,
         backgroundColor: Colors.lightGrey,
-        marginBottom: 15
+        marginBottom: 15,
     },
 });
 

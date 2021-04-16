@@ -8,22 +8,38 @@ import Colors from '../../constants/colors';
 import { toggleNewPost } from '../../store/actions/modals';
 
 const CustomTabComponent = ({ state, descriptors, navigation }) => {
-
     const focusedOptions = descriptors[state.routes[state.index].key].options;
 
-    const modals = useSelector(state => state.modals.newPost); 
+    const modals = useSelector((state) => state.modals.newPost);
+    const user = useSelector((state) => state.user.user);
 
     const dispatch = useDispatch();
 
-    const toggleNewPostHandler = bool => {
-        dispatch(toggleNewPost(bool))
-    }
+    const toggleNewPostHandler = (bool) => {
+        dispatch(toggleNewPost(bool));
+    };
 
     const toggleHomeHandler = () => {
         if (modals) {
-            toggleNewPostHandler(true)
+            toggleNewPostHandler(true);
         }
-    }
+    };
+
+    const toggleDrawer = () => {
+        if (user) {
+            navigation.toggleDrawer();
+        } else {
+            navigation.navigate('Login');
+        }
+    };
+
+    const openNewPost = () => {
+        if (user) {
+            toggleNewPostHandler(true);
+        } else {
+            navigation.navigate('Login');
+        }
+    };
 
     if (focusedOptions.tabBarVisible === false) {
         return null;
@@ -31,79 +47,40 @@ const CustomTabComponent = ({ state, descriptors, navigation }) => {
 
     return (
         <View style={styles.tabContainer}>
-            {/* {state.routes.map((route, index) => {
-                const { options } = descriptors[route.key];
-
-                const label =
-                    options.tabBarLabel !== undefined
-                        ? options.tabBarLabel
-                        : options.title !== undefined
-                            ? options.title
-                            : route.name;
-
-                const isFocused = state.index === index;
-
-                const onPress = () => {
-                    const event = navigation.emit({
-                        type: 'tabPress',
-                        target: route.key,
-                        canPreventDefault: true,
-                    });
-
-                    if (!isFocused && !event.defaultPrevented) {
-                        navigation.navigate(route.name);
-                    }
-                };
-
-                const onLongPress = () => {
-                    navigation.emit({
-                        type: 'tabLongPress',
-                        target: route.key,
-                    });
-                };
-
-                return (
-                    <TouchableOpacity
-                        accessibilityRole="button"
-                        accessibilityState={isFocused ? { selected: true } : {}}
-                        accessibilityLabel={options.tabBarAccessibilityLabel}
-                        testID={options.tabBarTestID}
-                        onPress={onPress}
-                        onLongPress={onLongPress}
-                        style={[styles.tab, isFocused ? styles.tabActive : '']}
-                        key={index.toString()}>
-                        {options.title === 'Home' ? (
-                            <Icon name="home" size={25} color={isFocused ? Colors.black : Colors.grey} />
-                        ) : (
-                            <Icon name="plus-square" size={25} color={isFocused ? Colors.black : Colors.grey} />
-                        )}
-                        <Text
-                            style={[
-                                styles.tabText,
-                                { color: isFocused ? Colors.black : Colors.grey },
-                            ]}>
-                            {label}
-                        </Text>
-                    </TouchableOpacity>
-                );
-            })} */}
             <TouchableOpacity
                 style={[styles.tab, modals ? '' : styles.tabActive]}
-                onPress={toggleHomeHandler}
-            >
-                <Icon name="home" size={25} color={ modals ? Colors.grey: Colors.black} />
-                <Text style={[styles.tabText, { color: modals ? Colors.grey : Colors.black }]}>Home</Text>
+                onPress={toggleHomeHandler}>
+                <Icon
+                    name="home"
+                    size={25}
+                    color={modals ? Colors.grey : Colors.black}
+                />
+                <Text
+                    style={[
+                        styles.tabText,
+                        { color: modals ? Colors.grey : Colors.black },
+                    ]}
+                >
+                    Home
+                </Text>
             </TouchableOpacity>
             <TouchableOpacity
                 style={[styles.tab, modals ? styles.tabActive : '']}
-                onPress={() => toggleNewPostHandler(true)}
-            >
-                <Icon name="plus-square" size={25} color={ modals ? Colors.black: Colors.grey} />
-                <Text style={[styles.tabText, { color: modals ? Colors.black : Colors.grey }]}>New Post</Text>
+                onPress={openNewPost}>
+                <Icon
+                    name="plus-square"
+                    size={25}
+                    color={modals ? Colors.black : Colors.grey}
+                />
+                <Text
+                    style={[
+                        styles.tabText,
+                        { color: modals ? Colors.black : Colors.grey },
+                    ]}>
+                    New Post
+        </Text>
             </TouchableOpacity>
-            <TouchableOpacity
-                style={styles.tab}
-                onPress={() => navigation.toggleDrawer()}>
+            <TouchableOpacity style={styles.tab} onPress={toggleDrawer}>
                 <Icon name="users" size={25} color={Colors.grey} />
                 <Text style={styles.tabText}>Communities</Text>
             </TouchableOpacity>
@@ -136,20 +113,20 @@ const styles = StyleSheet.create({
     },
     tabActive: {
         borderTopWidth: 2,
-        borderColor: Colors.black
+        borderColor: Colors.black,
     },
     tabText: {
         fontFamily: 'Lato-Regular',
         fontSize: 12,
         color: Colors.grey,
-        marginTop: 3
+        marginTop: 3,
     },
     red: {
-        borderColor: 'red'
+        borderColor: 'red',
     },
     blue: {
-        borderColor: 'blue'
-    }
+        borderColor: 'blue',
+    },
 });
 
 export default CustomTabComponent;

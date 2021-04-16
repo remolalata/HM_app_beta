@@ -9,11 +9,12 @@ import Colors from '../constants/colors';
 
 const SocialButton = props => {
     const {
-        title
+        title,
+        onPress
     } = props;
 
     return (
-        <TouchableOpacity style={styles.btn}>
+        <TouchableOpacity style={styles.btn} onPress={onPress}>
             <Text>{title}</Text>
         </TouchableOpacity>
     )
