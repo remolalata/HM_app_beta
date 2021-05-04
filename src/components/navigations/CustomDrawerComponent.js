@@ -12,14 +12,12 @@ import Colors from '../../constants/colors';
 import Plus from '../../assets/images/Plus.svg';
 
 const CustomDrawerComponent = (props) => {
-    const { 
+    const {
         navigation,
-        state: {
-            routes
-        }
+        state: { routes },
     } = props;
 
-    const groups = useSelector(state => state.groups.group2)
+    const groups = useSelector((state) => state.groups.group2);
 
     return (
         <View style={styles.drawerContainer}>
@@ -27,31 +25,43 @@ const CustomDrawerComponent = (props) => {
                 <View style={styles.groups}>
                     <DrawerContentScrollView
                         {...props}
-                        keyboardShouldPersistTaps="handled">
-                        <View style={{ marginTop: 16 }}>
+                        keyboardShouldPersistTaps="handled"
+                        contentContainerStyle={{ width: 75 }}>
+                        <View style={{ marginTop: 16, marginLeft: -3 }}>
                             <Text style={styles.groupsTitle}>Your Groups</Text>
                         </View>
                         {groups.map((item) => (
-                            <DrawerItem
-                                focused={item.id === 3 ? true : false}
-                                activeBackgroundColor={Colors.black}
-                                label={({ focused, color }) => {
-                                    return (
-                                        <>
-                                            <View
-                                                style={[
-                                                    focused ? styles.activeGroup : null,
-                                                    { width: 100, height: 60 },
-                                                ]}>
-                                                <Image source={item.image} style={styles.groupImage} />
-                                            </View>
-                                        </>
-                                    );
-                                }}
-                                style={{ marginLeft: -2, marginRight: 0, marginVertical: -5 }}
-                                onPress={() => navigation.navigate('Group')}
-                                key={item.id.toString()}
-                            />
+                            <View key={item.id.toString()}>
+                                <DrawerItem
+                                    focused={item.id === 3 ? true : false}
+                                    activeBackgroundColor={null}
+                                    inactiveBackgroundColor={null}
+                                    label={({ focused, color }) => {
+                                        return (
+                                            <>
+                                                <View style={{ width: 46.7 }}>
+                                                    <Image
+                                                        source={item.image}
+                                                        style={styles.groupImage}
+                                                    />
+                                                </View>
+                                            </>
+                                        );
+                                    }}
+                                    onPress={() => navigation.navigate('Group')}
+                                    style={{
+                                        height: 58.7,
+                                        marginLeft: 7,
+                                        marginRight: 0,
+                                        borderTopLeftRadius: 12,
+                                        borderBottomLeftRadius: 12,
+                                        borderTopRightRadius: 0,
+                                        borderBottomRightRadius: 0,
+                                        backgroundColor: (item.id === 3) ? 'white' : null,
+                                        marginBottom: 15
+                                    }}
+                                />
+                            </View>
                         ))}
                         <View style={styles.addGroupContainer}>
                             <TouchableOpacity>
@@ -73,7 +83,10 @@ const CustomDrawerComponent = (props) => {
                             </TouchableOpacity>
                         </View>
                     </View>
-                    <DrawerSubTasks navigation={navigation} activeRoute={routes[0].params} />
+                    <DrawerSubTasks
+                        navigation={navigation}
+                        activeRoute={routes[0].params}
+                    />
                     <DrawerMembers />
                 </View>
             </View>
@@ -102,7 +115,7 @@ const styles = StyleSheet.create({
     groups: {
         width: 75,
         backgroundColor: Colors.black,
-        justifyContent: 'center',
+        alignItems: 'center',
     },
     groupsTitle: {
         fontFamily: 'Lato-Bold',
@@ -111,17 +124,12 @@ const styles = StyleSheet.create({
         textAlign: 'center',
     },
     groupImage: {
-        width: 48,
-        height: 48,
-        borderRadius: 48 / 2,
+        width: 46.67,
+        height: 46.67,
+        borderRadius: 10,
         position: 'relative',
-        left: 6,
-        top: 6,
-    },
-    activeGroup: {
-        backgroundColor: '#ffffff',
-        borderTopLeftRadius: 48,
-        borderBottomLeftRadius: 48,
+        left: -2,
+        bottom: 7
     },
     addGroupContainer: {
         width: 42,
