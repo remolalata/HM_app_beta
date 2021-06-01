@@ -64,7 +64,7 @@ const CustomDrawerComponent = (props) => {
                             </View>
                         ))}
                         <View style={styles.addGroupContainer}>
-                            <TouchableOpacity>
+                            <TouchableOpacity onPress={() => navigation.navigate('CreateCommunity')} style={styles.addGroup}>
                                 <Plus width={25} height={25} />
                             </TouchableOpacity>
                         </View>
@@ -132,15 +132,17 @@ const styles = StyleSheet.create({
         bottom: 7
     },
     addGroupContainer: {
-        width: 42,
-        height: 42,
-        backgroundColor: '#4e4e4e',
-        borderRadius: 42 / 2,
         justifyContent: 'center',
         alignItems: 'center',
-        position: 'relative',
-        left: 15,
         marginTop: 15,
+    },
+    addGroup: {
+        width: 42,
+        height: 42,
+        borderRadius: 42 / 2,
+        backgroundColor: '#4e4e4e',
+        justifyContent: 'center',
+        alignItems: 'center',
     },
     groupTitleContainer: {
         flexDirection: 'row',

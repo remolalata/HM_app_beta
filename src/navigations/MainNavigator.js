@@ -13,6 +13,9 @@ import PinnedPostScreen from '../screens/PinnedPostScreen';
 import LocatorScreen from '../screens/LocatorScreen';
 import FamilyShoppingScreen from '../screens/FamilyShoppingScreen';
 import GroceryList from '../screens/GroceryListScreen';
+import CreateCommunityScreen from '../screens/CreateCommunityScreen';
+import InviteMembersScreen from '../screens/InviteMembersScreen';
+import SetupGroupScreen from '../screens/SetupGroupScreen';
 
 import LoginScreen from '../screens/LoginScreen';
 import SignUpScreen from '../screens/SignUpScreen';
@@ -76,6 +79,9 @@ const HomeStackNavigator = () => {
             <Stack.Screen name='GroceryList' component={GroceryList} />
             <Stack.Screen name='Login' component={LoginScreen} />
             <Stack.Screen name='SignUp' component={SignUpScreen} />
+            <Stack.Screen name='CreateCommunity' component={CreateCommunityScreen} />
+            <Stack.Screen name='InviteMembers' component={InviteMembersScreen} />
+            <Stack.Screen name='SetupGroup' component={SetupGroupScreen} />
         </Stack.Navigator>
     );
 };
