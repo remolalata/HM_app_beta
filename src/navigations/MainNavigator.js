@@ -8,6 +8,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import HomeScreen from '../screens/HomeScreen';
 import GroupScreen from '../screens/GroupScreen';
 import ProfileScreen from '../screens/ProfileScreen';
+import MarketPlaceScreen from '../screens/MarketPlaceScreen';
 import NewPostScreen from '../screens/NewPostScreen';
 import PinnedPostScreen from '../screens/PinnedPostScreen';
 import LocatorScreen from '../screens/LocatorScreen';
@@ -16,6 +17,7 @@ import GroceryList from '../screens/GroceryListScreen';
 import CreateCommunityScreen from '../screens/CreateCommunityScreen';
 import InviteMembersScreen from '../screens/InviteMembersScreen';
 import SetupGroupScreen from '../screens/SetupGroupScreen';
+import ProductScreen from '../screens/ProductScreen';
 
 import LoginScreen from '../screens/LoginScreen';
 import SignUpScreen from '../screens/SignUpScreen';
@@ -60,6 +62,11 @@ const HomeTabNavigator = () => {
                     },
                 }}
             />
+            <Tab.Screen
+                name='MarketPlace'
+                component={MarketPlaceScreen}
+                options={{ title: 'Marketplace' }}
+            />
         </Tab.Navigator>
     );
 };
@@ -82,6 +89,7 @@ const HomeStackNavigator = () => {
             <Stack.Screen name='CreateCommunity' component={CreateCommunityScreen} />
             <Stack.Screen name='InviteMembers' component={InviteMembersScreen} />
             <Stack.Screen name='SetupGroup' component={SetupGroupScreen} />
+            <Stack.Screen name='Product' component={ProductScreen} />
         </Stack.Navigator>
     );
 };

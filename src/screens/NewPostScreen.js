@@ -80,6 +80,7 @@ const NewPostScreen = (props) => {
             multiple: true,
         })
             .then((images) => {
+                console.log(images)
                 setReadyPost(images.length > 0 ? true : false);
                 setSelectedImages(images.length);
             })

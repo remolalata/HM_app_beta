@@ -106,8 +106,6 @@ const NewPost = (props) => {
         </>
     );
 
-    console.log(inputHeigt)
-
     return (
         <View
             style={{
@@ -118,35 +116,8 @@ const NewPost = (props) => {
                 left: 0,
                 right: 0,
                 justifyContent: 'flex-end',
+                zIndex: 999999
             }}>
-            {/* <Animated.View
-                style={{
-                    transform: [{ translateY: animatedValue }],
-                }}
-            >
-                <TouchableWithoutFeedback onPress={startAnimation}>
-                    <View style={styles.postContainer}>
-                        <View style={{ marginRight: 10 }}>
-                            <Text style={styles.title}>You are Posting In</Text>
-                        </View>
-                        <View>
-                            {selectedGroup ?
-                                <Text style={styles.selectedGroup}>{selectedGroup}</Text> : <Text style={styles.select}>Select Community</Text>
-                            }
-                        </View>
-                        <View style={styles.chevron}>
-                            <Icon name={communities ? 'chevron-down' : 'chevron-up'} size={20} color="#000000" />
-                        </View>
-                    </View>
-                </TouchableWithoutFeedback>
-                <View style={styles.communities} >
-                    <FlatList
-                        data={groups}
-                        renderItem={renderItem}
-                        keyExtractor={item => item.id.toString()}
-                    />
-                </View>
-            </Animated.View> */}
             <TouchableWithoutFeedback onPress={startAnimation}>
                 <View style={styles.postContainer}>
                     <View style={{ marginRight: 10 }}>
@@ -228,6 +199,7 @@ const styles = StyleSheet.create({
         height: 38,
         backgroundColor: '#ffffff',
         position: 'relative',
+        zIndex: 99999
     },
     title: {
         fontFamily: 'Lato-Regular',
@@ -306,7 +278,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         top: -2,
-        right: -2,
+        right: -2
     },
     labelCount: {
         fontFamily: 'Lato-Bold',

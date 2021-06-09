@@ -20,6 +20,8 @@ import groupsReducer from './src/store/reducers/groups';
 import usersReducer from './src/store/reducers/users';
 import userReducer from './src/store/reducers/user';
 import modalsReducer from './src/store/reducers/modals';
+import utilsReducer from './src/store/reducers/utils';
+import productsReducer from './src/store/reducers/products';
 
 enableScreens();
 
@@ -33,7 +35,9 @@ const rootReducer = combineReducers({
   groups: groupsReducer,
   users: usersReducer,
   user: userReducer,
-  modals: modalsReducer
+  modals: modalsReducer,
+  utils: utilsReducer,
+  products: productsReducer
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)

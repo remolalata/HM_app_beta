@@ -6,6 +6,7 @@ import {
     TouchableWithoutFeedback,
     TouchableOpacity,
     Text,
+    TextInput
 } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 
@@ -22,6 +23,8 @@ import Colors from '../constants/colors';
 
 import { loginUser, logoutUser } from '../store/actions/user';
 
+import SearchBar from '../components/SearchBar';
+
 const Header = (props) => {
     const { goToProfile, goToLogin, goBack } = props;
 
@@ -29,29 +32,32 @@ const Header = (props) => {
 
     const dispatch = useDispatch();
 
-    console.log('user', user);
-
     return (
         <View style={styles.header}>
             <View>
                 <Logo width={70} height={30} fill="#39576C" />
             </View>
             {user ?
-                <View style={styles.headerAvatarWrapper}>
-                    <TouchableWithoutFeedback onPress={goToProfile}>
-                        {user && user.photoURL ?
-                            <Image
-                                style={styles.headerAvatar}
-                                source={{ uri: user.photoURL }}
-                            />
-                            :
-                            <Image
-                                style={styles.headerAvatar}
-                                source={require('../assets/images/avatar.png')}
-                            />
-                        }
-                    </TouchableWithoutFeedback>
-                </View>
+                <>
+                    <View style={styles.searchBar}>
+                        <SearchBar />
+                    </View>
+                    <View style={styles.headerAvatarWrapper}>
+                        <TouchableWithoutFeedback onPress={goToProfile}>
+                            {user && user.photoURL ?
+                                <Image
+                                    style={styles.headerAvatar}
+                                    source={{ uri: user.photoURL }}
+                                />
+                                :
+                                <Image
+                                    style={styles.headerAvatar}
+                                    source={require('../assets/images/avatar.png')}
+                                />
+                            }
+                        </TouchableWithoutFeedback>
+                    </View>
+                </>
                 :
                 <View>
                     <TouchableOpacity onPress={goToLogin}>
@@ -89,6 +95,10 @@ const styles = StyleSheet.create({
         fontFamily: 'Lato-Regular',
         fontSize: 12,
         color: Colors.blue
+    },
+    searchBar: {
+        flexGrow: 1,
+        marginHorizontal: 15
     }
 });
 
