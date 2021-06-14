@@ -120,7 +120,8 @@ const TabScene = ({
     onScrollEndDrag,
     onMomentumScrollEnd,
     onMomentumScrollBegin,
-    onPress
+    onPress,
+    tabIndex
 }) => {
     const windowHeight = Dimensions.get('window').height;
 
@@ -140,7 +141,7 @@ const TabScene = ({
             onMomentumScrollEnd={onMomentumScrollEnd}
             ItemSeparatorComponent={() => <View style={{ height: separatorHeight, backgroundColor: Colors.lightGrey }} />}
             contentContainerStyle={{
-                paddingTop: HeaderHeight + TabBarHeight,
+                paddingTop: (tabIndex === 1) ? HeaderHeight + TabBarHeight + 46 : HeaderHeight + TabBarHeight,
                 minHeight: windowHeight - TabBarHeight,
                 backgroundColor: '#e5e5e5',
             }}
@@ -168,6 +169,15 @@ const GroupScreen = props => {
     const modals = useSelector(state => state.modals.newPost);
     const user = useSelector(state => state.user.user);
     const productsList = useSelector((state) => state.products.groupProducts);
+    const marketplaceFilters = useSelector(state => state.utils.marketplaceFilters);
+
+    let filteredProducts = productsList;
+
+    if (marketplaceFilters.price === 'LTH') {
+        filteredProducts = productsList.sort((a, b) => a.raw_price - b.raw_price);
+    } else {
+        filteredProducts = productsList.sort((a, b) => b.raw_price - a.raw_price);
+    }
 
     const dispatch = useDispatch();
 
@@ -476,7 +486,7 @@ const GroupScreen = props => {
             case 'marketplace':
                 scene = 'marketplace';
                 numCols = 1;
-                data = productsList;
+                data = filteredProducts;
                 renderItem = renderMarketPlace;
                 break;
             default:
@@ -505,6 +515,7 @@ const GroupScreen = props => {
                 }}
                 onPress={onPress}
                 scene={scene}
+                tabIndex={tabIndex}
             />
         );
     };
@@ -547,10 +558,15 @@ const GroupScreen = props => {
                         renderLabel={renderLabel}
                         indicatorStyle={styles.indicator}
                     />
+                    {tabIndex === 1 &&
+                        <View style={{ overflow: 'hidden', paddingBottom: 5, zIndex: 99 }}>
+                            <View style={styles.filtersWrapper}>
+                                <Filters />
+                            </View>
+                        </View>
+                    }
                 </Animated.View>
-                <View style={{ backgroundColor: 'red'}}>
-                    <Text>Test</Text>
-                </View>
+
             </>
         );
     };
@@ -797,6 +813,20 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
     },
+    filtersWrapper: {
+        paddingTop: 15,
+        backgroundColor: '#ffffff',
+        borderTopWidth: 0,
+        shadowColor: "#000000",
+        shadowOffset: {
+            width: 0,
+            height: 1,
+        },
+        shadowOpacity: 0.22,
+        shadowRadius: 2.22,
+        elevation: 3,
+        paddingLeft: 15
+    }
 });
 
 export default GroupScreen;

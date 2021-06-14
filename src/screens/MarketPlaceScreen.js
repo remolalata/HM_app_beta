@@ -28,6 +28,15 @@ const MarketPlaceScreen = props => {
     const productsList = useSelector((state) => state.products.products);
     const productId = useSelector((state) => state.products.selectedProduct);
     const modals = useSelector(state => state.modals.newPost);
+    const marketplaceFilters = useSelector(state => state.utils.marketplaceFilters);
+
+    let filteredProducts = productsList;
+
+    if (marketplaceFilters.price === 'LTH') {
+        filteredProducts = productsList.sort((a, b) => a.raw_price - b.raw_price);
+    } else {
+        filteredProducts = productsList.sort((a, b) => b.raw_price - a.raw_price);
+    }
 
     const dispatch = useDispatch();
 
@@ -46,8 +55,6 @@ const MarketPlaceScreen = props => {
         navigation.navigate('Product');
     }
 
-    console.log(productsList)
-
     useEffect(() => {
         firestore()
             .collection('products')
@@ -56,7 +63,6 @@ const MarketPlaceScreen = props => {
                 let data = [];
                 if (querySnapshot.size) {
                     querySnapshot.forEach(documentSnapshot => {
-                        console.log(documentSnapshot.data().group)
                         if (documentSnapshot.data().group === '1') {
                             let assembledSnapshot = documentSnapshot.data();
                             assembledSnapshot.id = documentSnapshot.id;
@@ -116,7 +122,7 @@ const MarketPlaceScreen = props => {
                     </View>
                 </View>
                 <FlatList
-                    data={productsList}
+                    data={filteredProducts}
                     renderItem={renderItem}
                     keyExtractor={item => item.id}
                     style={{ marginTop: -9, zIndex: 1 }}

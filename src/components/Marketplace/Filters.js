@@ -35,7 +35,6 @@ const Filters = props => {
 const styles = StyleSheet.create({
     container: {
         flexDirection: 'row',
-        
     },
     filterWrapper: {
         flexDirection: 'row',
