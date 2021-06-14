@@ -14,6 +14,7 @@ import {
 } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 import { TabView, TabBar } from 'react-native-tab-view';
+import firestore from '@react-native-firebase/firestore';
 import { useSelector, useDispatch } from 'react-redux';
 import ImagePicker from 'react-native-image-crop-picker';
 import Icon from 'react-native-vector-icons/Feather';
@@ -35,10 +36,79 @@ import ActiveSend from '../assets/images/Send Black.svg';
 import Filter from '../components/Marketplace/Filter';
 import Item from '../components/Marketplace/Item';
 
-import { selectedProduct } from '../store/actions/products';
+import { selectedProduct, getData, getGroupProduct } from '../store/actions/products';
+import { displayAds } from '../store/actions/utils';
 
 const TabBarHeight = 48;
 const HeaderHeight = 92;
+
+const dummyPosts = [
+    {
+        id: 1,
+        groupId: 1,
+        author: 'De Vitto',
+        userName: 'deVittoEpektus',
+        userAvatar: require('../assets/images/bakal_bikes/posts/avatar_1.png'),
+        userStatus: 'Homebound',
+        createdAt: '30s ago',
+        content: 'Me Lumapag🚴‍♂️🔥🍻🤘🏼 #BrunoRoad20 - Para sa Ekonomiya👌🏼 magBisikleta🚴‍♂️🚴‍♀️🤘🏼Solusyon sa Polusyon',
+        image: require('../assets/images/bakal_bikes/posts/post_img_1.png'),
+        likes: 7,
+        comments: 8
+    },
+    {
+        id: 2,
+        groupId: 1,
+        author: 'Louis Roth',
+        userName: 'rothstar',
+        userAvatar: require('../assets/images/bakal_bikes/posts/avatar_2.png'),
+        userStatus: 'Away',
+        createdAt: '2m ago',
+        content: 'I felt that a good ride on my old bike was overdue so I pulled it out, fit some new Panaracer tires and went out for a spin. 1971 Stella SX6...',
+        image: require('../assets/images/bakal_bikes/posts/post_img_2.png'),
+        likes: 148,
+        comments: 83
+    },
+    {
+        id: 3,
+        groupId: 1,
+        author: 'Joseph Palmersheim',
+        userName: 'jopalm',
+        userAvatar: require('../assets/images/bakal_bikes/posts/avatar_3.png'),
+        userStatus: 'Offline',
+        createdAt: 'May 25, 2:30am',
+        content: 'Any fellow Raleigh nerds out there to help me with this? I bought a chrome Raleigh Sports today, and am trying to age it based on the bottom bracket serial number of "1872973." Interestingly, most of the components on the bike seem to have been replaced over time: Schwinn brakes, Messinger seat, Shimano shifters, Araya wheels and a mystery 3-speed (garbage) hub. I have the parts to restore it, but its gonna take a while, lol.',
+        image: null,
+        likes: 204,
+        comments: 67
+    },
+    {
+        id: 4,
+        groupId: 1,
+        author: 'Herve Eibes',
+        userName: 'theHerve',
+        userAvatar: require('../assets/images/bakal_bikes/posts/avatar_4.png'),
+        userStatus: 'Offline',
+        createdAt: 'May 25, 12:01am',
+        content: 'Sunday ride in family.',
+        image: require('../assets/images/bakal_bikes/posts/post_img_4.png'),
+        likes: 111,
+        comments: 34
+    },
+    {
+        id: 5,
+        groupId: 1,
+        author: 'John Walis',
+        userName: 'broombroom',
+        userAvatar: require('../assets/images/bakal_bikes/posts/avatar_5.png'),
+        userStatus: 'Offline',
+        createdAt: 'May 18, 7:55am',
+        content: 'What tubes fit in a 26 3/8 bike tire? Those tubes are not available where I live ',
+        image: null,
+        likes: 24,
+        comments: 81
+    }
+]
 
 const TabScene = ({
     scene,
@@ -97,7 +167,7 @@ const GroupScreen = props => {
     const groups = useSelector(state => state.groups.groups);
     const modals = useSelector(state => state.modals.newPost);
     const user = useSelector(state => state.user.user);
-    const productsList = useSelector((state) => state.products.products);
+    const productsList = useSelector((state) => state.products.groupProducts);
 
     const dispatch = useDispatch();
 
@@ -113,6 +183,24 @@ const GroupScreen = props => {
     let isListGliding = useRef(false);
 
     useEffect(() => {
+        firestore()
+            .collection('products')
+            .get()
+            .then(querySnapshot => {
+                let data = [];
+                if (querySnapshot.size) {
+                    querySnapshot.forEach(documentSnapshot => {
+                        if (documentSnapshot.data().group === '2') {
+                            let assembledSnapshot = documentSnapshot.data();
+                            assembledSnapshot.id = documentSnapshot.id;
+                            data.push(assembledSnapshot);
+                        }
+                    })
+                }
+
+                dispatch(getGroupProduct(data));
+            });
+
         scrollY.addListener(({ value }) => {
             const curRoute = routes[tabIndex].key;
             listOffset.current[curRoute] = value;
@@ -148,8 +236,8 @@ const GroupScreen = props => {
     }
 
     const goToProductScreenHandler = id => {
-        console.log(id)
         dispatch(selectedProduct(id));
+        dispatch(displayAds(true));
         navigation.navigate('Product');
     }
 
@@ -314,7 +402,7 @@ const GroupScreen = props => {
                 </View>
                 <View style={styles.likeCommentBtns}>
                     <TouchableOpacity style={styles.likeCommentBtn}>
-                        {item.id === 1 ? (
+                        {item.id === 1 || item.id === 3 || item.id === 4 ? (
                             <ThumbsUp width={32} height={32} />
                         ) : (
                             <ThumbsUpActive width={32} height={32} />
@@ -382,7 +470,7 @@ const GroupScreen = props => {
             case 'feed':
                 scene = 'feed';
                 numCols = 1;
-                data = posts;
+                data = dummyPosts;
                 renderItem = renderFeed;
                 break;
             case 'marketplace':
@@ -436,29 +524,34 @@ const GroupScreen = props => {
         });
 
         return (
-            <Animated.View
-                style={{
-                    top: 0,
-                    zIndex: 1,
-                    position: 'absolute',
-                    transform: [{ translateY: y }],
-                    borderTopLeftRadius: radius,
-                    borderTopRightRadius: radius,
-                    overflow: 'hidden',
-                    width: '100%'
-                }}>
-                <TabBar
-                    {...props}
-                    onTabPress={({ route, preventDefault }) => {
-                        if (isListGliding.current) {
-                            preventDefault();
-                        }
-                    }}
-                    style={styles.tab}
-                    renderLabel={renderLabel}
-                    indicatorStyle={styles.indicator}
-                />
-            </Animated.View>
+            <>
+                <Animated.View
+                    style={{
+                        top: 0,
+                        zIndex: 1,
+                        position: 'absolute',
+                        transform: [{ translateY: y }],
+                        borderTopLeftRadius: radius,
+                        borderTopRightRadius: radius,
+                        overflow: 'hidden',
+                        width: '100%'
+                    }}>
+                    <TabBar
+                        {...props}
+                        onTabPress={({ route, preventDefault }) => {
+                            if (isListGliding.current) {
+                                preventDefault();
+                            }
+                        }}
+                        style={styles.tab}
+                        renderLabel={renderLabel}
+                        indicatorStyle={styles.indicator}
+                    />
+                </Animated.View>
+                <View style={{ backgroundColor: 'red'}}>
+                    <Text>Test</Text>
+                </View>
+            </>
         );
     };
 
@@ -486,7 +579,7 @@ const GroupScreen = props => {
             />
             {renderTabView()}
             {renderHeader()}
-            <ShoppingCart />
+            {tabIndex === 1 && <ShoppingCart />}
             <View style={[styles.footer, { height: Math.max(40, inputHeigt) + 26 }]}>
                 <View style={{ marginRight: 15 }}>
                     <TouchableOpacity onPress={() => navigation.navigate('Home')}>

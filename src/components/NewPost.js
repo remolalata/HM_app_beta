@@ -15,6 +15,8 @@ import { useSelector } from 'react-redux';
 import { useFocusEffect } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Feather';
 import ImagePicker from 'react-native-image-crop-picker';
+import { utils } from '@react-native-firebase/app';
+import storage from '@react-native-firebase/storage';
 
 import Send from '../assets/images/Send Black.svg';
 import ActiveSend from '../assets/images/Send Black.svg';
@@ -84,6 +86,7 @@ const NewPost = (props) => {
     const selectImage = () => {
         ImagePicker.openPicker({
             multiple: true,
+            includeBase64: true
         })
             .then((images) => {
                 setReadyPost(images.length > 0 ? true : false);
@@ -127,8 +130,8 @@ const NewPost = (props) => {
                         {selectedGroup ? (
                             <Text style={styles.selectedGroup}>{selectedGroup}</Text>
                         ) : (
-                                <Text style={styles.select}>Select Community</Text>
-                            )}
+                            <Text style={styles.select}>Select Community</Text>
+                        )}
                     </View>
                     <View style={styles.chevron}>
                         <Icon

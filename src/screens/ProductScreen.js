@@ -28,7 +28,58 @@ const ProductScreen = props => {
     const { navigation } = props;
 
     const productsList = useSelector((state) => state.products.products);
+    const groupProductsList = useSelector((state) => state.products.groupProducts);
     const productId = useSelector((state) => state.products.selectedProduct);
+    const displayAds = useSelector((state) => state.utils.displayAds);
+
+    console.log(displayAds)
+
+    let image = '';
+
+    switch (productId) {
+        case '9aGXvz0blmxos3OXyLzc':
+            image = require('../assets/images/products/9aGXvz0blmxos3OXyLzc.png');
+            break;
+        case 'GI4YhgFQUk4etT7Gz27v':
+            image = require('../assets/images/products/GI4YhgFQUk4etT7Gz27v.png');
+            break;
+        case 'Kh401zSxBNd54q5Sj3Ny':
+            image = require('../assets/images/products/Kh401zSxBNd54q5Sj3Ny.png');
+            break;
+        case 'uY64uTj5Z5ndXFfUWW2w':
+            image = require('../assets/images/products/uY64uTj5Z5ndXFfUWW2w.png');
+            break;
+        case 'zoObnFRiQLUUi0XXpFmf':
+            image = require('../assets/images/products/zoObnFRiQLUUi0XXpFmf.png');
+            break;
+        case 'D67Y5QwRN911QyygW0p4':
+            image = require('../assets/images/products/D67Y5QwRN911QyygW0p4.png');
+            break;
+        case 'IZSujtHPpykOzhfMJfMV':
+            image = require('../assets/images/products/IZSujtHPpykOzhfMJfMV.png');
+            break;
+        case 'QKBquHIxmNL7RxS6o6fW':
+            image = require('../assets/images/products/QKBquHIxmNL7RxS6o6fW.png');
+            break;
+        case 'mbmpSQhbQOYWoIjr7k27':
+            image = require('../assets/images/products/mbmpSQhbQOYWoIjr7k27.png');
+            break;
+        case 'KsPiGCAxGTtBdYGJG8TJ':
+            image = require('../assets/images/products/KsPiGCAxGTtBdYGJG8TJ.png');
+            break;
+        case 'Rc4spXRhmqht3RBOWC2C':
+            image = require('../assets/images/products/Rc4spXRhmqht3RBOWC2C.png');
+            break;
+        case 'E7WPAJgUVIg4IfAxboUc':
+            image = require('../assets/images/products/E7WPAJgUVIg4IfAxboUc.png');
+            break;
+        case 'l4jKsYpk2FQKhdyJRI0I':
+            image = require('../assets/images/products/l4jKsYpk2FQKhdyJRI0I.png');
+            break;
+        case 'Te6CDozMGzcR3CRI0wCJ':
+            image = require('../assets/images/products/Te6CDozMGzcR3CRI0wCJ.png');
+            break;
+    }
 
     const [activeIndex, setActiveIndex] = useState(0);
     const [carouselItems, setCarouselItems] = useState([
@@ -55,7 +106,9 @@ const ProductScreen = props => {
     ]);
     const ref = useRef(null);
 
-    const getProduct = productsList.find(x => x.id === productId);
+    const combineProducts = productsList.concat(groupProductsList)
+
+    const getProduct = combineProducts.find(x => x.id === productId);
 
     const dispatch = useDispatch();
 
@@ -64,7 +117,7 @@ const ProductScreen = props => {
     }
 
     const goBackHandler = () => {
-        navigation.navigate('Home');
+        navigation.goBack();
     }
 
     const renderItem = ({ item, index }) => {
@@ -72,7 +125,7 @@ const ProductScreen = props => {
             <View style={{
                 height: 265,
             }}>
-                <Image source={require('../assets/images/carouse_image_1.png')} style={{ resizeMode: 'cover', width: windowWidth }} />
+                <Image source={image} style={{ resizeMode: 'cover', width: windowWidth, height: 265 }} />
             </View>
 
         )
@@ -122,7 +175,7 @@ const ProductScreen = props => {
                     dotStyle={{
                         width: 5,
                         height: 5,
-                        borderRadius: 5/2,
+                        borderRadius: 5 / 2,
                         backgroundColor: 'rgba(255, 255, 255, 0.92)'
                     }}
                     inactiveDotStyle={{
@@ -203,6 +256,10 @@ const ProductScreen = props => {
                             <Icon2 name='more-horizontal' size={25} color={Colors.lightGrey} />
                         </TouchableOpacity>
                     </View>
+                    {displayAds && <View>
+                        <Image source={require('../assets/images/bakal_bikes/bakal_bike_ads.png')} />
+                    </View>}
+
                 </View>
             </ScrollView>
             <ShoppingCart bottom={80} right={25} />

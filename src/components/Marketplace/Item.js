@@ -44,6 +44,33 @@ const Item = props => {
         case 'zoObnFRiQLUUi0XXpFmf':
             image = require('../../assets/images/products/zoObnFRiQLUUi0XXpFmf.png');
             break;
+        case 'D67Y5QwRN911QyygW0p4':
+            image = require('../../assets/images/products/D67Y5QwRN911QyygW0p4.png');
+            break;
+        case 'IZSujtHPpykOzhfMJfMV':
+            image = require('../../assets/images/products/IZSujtHPpykOzhfMJfMV.png');
+            break;
+        case 'QKBquHIxmNL7RxS6o6fW':
+            image = require('../../assets/images/products/QKBquHIxmNL7RxS6o6fW.png');
+            break;
+        case 'mbmpSQhbQOYWoIjr7k27':
+            image = require('../../assets/images/products/mbmpSQhbQOYWoIjr7k27.png');
+            break;
+        case 'KsPiGCAxGTtBdYGJG8TJ':
+            image = require('../../assets/images/products/KsPiGCAxGTtBdYGJG8TJ.png');
+            break;
+        case 'Rc4spXRhmqht3RBOWC2C':
+            image = require('../../assets/images/products/Rc4spXRhmqht3RBOWC2C.png');
+            break;
+        case 'E7WPAJgUVIg4IfAxboUc':
+            image = require('../../assets/images/products/E7WPAJgUVIg4IfAxboUc.png');
+            break;
+        case 'l4jKsYpk2FQKhdyJRI0I':
+            image = require('../../assets/images/products/l4jKsYpk2FQKhdyJRI0I.png');
+            break;
+        case 'Te6CDozMGzcR3CRI0wCJ':
+            image = require('../../assets/images/products/Te6CDozMGzcR3CRI0wCJ.png');
+            break;
     }
 
     return (

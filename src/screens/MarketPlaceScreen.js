@@ -17,7 +17,7 @@ import Item from '../components/Marketplace/Item';
 import ShoppingCart from '../components/Marketplace/ShoppingCart';
 import NewPost from '../components/NewPost';
 
-import { setActiveTab } from '../store/actions/utils';
+import { setActiveTab, displayAds } from '../store/actions/utils';
 import { getData, selectedProduct } from '../store/actions/products';
 
 const MarketPlaceScreen = props => {
@@ -42,8 +42,11 @@ const MarketPlaceScreen = props => {
 
     const goToProductScreenHandler = id => {
         dispatch(selectedProduct(id));
+        dispatch(displayAds(false));
         navigation.navigate('Product');
     }
+
+    console.log(productsList)
 
     useEffect(() => {
         firestore()
@@ -53,9 +56,12 @@ const MarketPlaceScreen = props => {
                 let data = [];
                 if (querySnapshot.size) {
                     querySnapshot.forEach(documentSnapshot => {
-                        let assembledSnapshot = documentSnapshot.data();
-                        assembledSnapshot.id = documentSnapshot.id;
-                        data.push(assembledSnapshot);
+                        console.log(documentSnapshot.data().group)
+                        if (documentSnapshot.data().group === '1') {
+                            let assembledSnapshot = documentSnapshot.data();
+                            assembledSnapshot.id = documentSnapshot.id;
+                            data.push(assembledSnapshot);
+                        }
                     })
                 }
 
